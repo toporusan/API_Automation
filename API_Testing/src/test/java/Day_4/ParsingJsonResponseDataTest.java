@@ -1,7 +1,9 @@
 package Day_4;
 
 import io.restassured.response.Response;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
@@ -12,16 +14,27 @@ public class ParsingJsonResponseDataTest {
     void testJsonResponse() {
 
         //Approach 1
-        given()
+        /*given()
                 .contentType("application/json")
                 .when()
                 .get("http://localhost:3000/books")
                 .then()
                 .statusCode(200)
                 .header("Content-Type", "application/json")
-                .body("books[0].title", equalTo("1984"));
+                .body("books[0].title", equalTo("1984"));*/
 
+
+        //Approach 2
+
+        Response res = given()
+                .contentType("application/json")
+                .when()
+                .get("http://localhost:3000/books");
+
+        Assert.assertEquals(res.getStatusCode(),200);
+        Assert.assertEquals(res.getStatusCode(),200);
 
     }
+
 
 }
