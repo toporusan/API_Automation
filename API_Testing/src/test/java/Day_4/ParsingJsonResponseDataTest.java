@@ -2,11 +2,9 @@ package Day_4;
 
 import org.testng.annotations.Test;
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
 
 
-public class ParsingJsonResponseData {
+public class ParsingJsonResponseDataTest {
 
     @Test(priority = 1)
     void testJsonResponse() {
