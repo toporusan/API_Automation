@@ -1,7 +1,9 @@
 package Day_4;
 
+import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
 
 
 public class ParsingJsonResponseDataTest {
@@ -11,14 +13,14 @@ public class ParsingJsonResponseDataTest {
 
         //Approach 1
         given()
-                .contentType("ContentType/JSON")
+                .contentType("application/json")
                 .when()
                 .get("http://localhost:3000/books")
                 .then()
                 .statusCode(200)
                 .header("Content-Type", "application/json")
-                .log();
-                //.body("books[2].title", equalTo("To Kill a Mockingbird"));
+                .body("books[0].title", equalTo("1984"));
+
 
     }
 
