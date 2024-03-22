@@ -5,6 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
+import static java.lang.String.valueOf;
 import static org.hamcrest.Matchers.*;
 
 
@@ -29,10 +30,18 @@ public class ParsingJsonResponseDataTest {
         Response res = given()
                 .contentType("application/json")
                 .when()
-                .get("http://localhost:3000/books");
+                .get("http://localhost:3000/book");
 
         Assert.assertEquals(res.getStatusCode(),200);
-        Assert.assertEquals(res.getStatusCode(),200);
+        Assert.assertEquals(res.header("Content-Type"),"application/json");
+
+        String title = res.jsonPath().get("[3].title").toString();// получаем title четвертого объекта
+        Assert.assertEquals(title,"One Hundred Years of Solitude");
+        System.out.println(title);
+
+
+
+
 
     }
 
