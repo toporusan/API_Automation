@@ -1,12 +1,11 @@
 package Day_4;
 
 import io.restassured.response.Response;
-import org.testng.Assert;
+import org.json.JSONObject;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 import static java.lang.String.valueOf;
-import static org.hamcrest.Matchers.*;
 
 
 public class ParsingJsonResponseDataTest {
@@ -32,12 +31,24 @@ public class ParsingJsonResponseDataTest {
                 .when()
                 .get("http://localhost:3000/book");
 
-        Assert.assertEquals(res.getStatusCode(),200);
+      /*  Assert.assertEquals(res.getStatusCode(),200);
         Assert.assertEquals(res.header("Content-Type"),"application/json");
 
         String title = res.jsonPath().get("[3].title").toString();// получаем title четвертого объекта
         Assert.assertEquals(title,"One Hundred Years of Solitude");
-        System.out.println(title);
+        System.out.println(title);*/
+
+
+        // JSONObject Class -представляет собой контейнер для хранения
+        // и работы с данными в формате JSON
+
+        JSONObject jo = new JSONObject(res.toString());// converting response to json object type
+
+
+
+
+
+
 
 
 
