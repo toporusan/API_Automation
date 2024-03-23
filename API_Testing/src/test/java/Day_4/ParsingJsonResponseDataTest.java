@@ -4,9 +4,12 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.converter.json.GsonBuilderUtils;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.sql.SQLOutput;
+import java.util.Arrays;
 
 import static io.restassured.RestAssured.given;
 
@@ -56,6 +59,39 @@ public class ParsingJsonResponseDataTest {
             String booKTitle = jo.getJSONArray("book").getJSONObject(i).get("title").toString();
             System.out.println(booKTitle);
         }
+
+        // search for title of the book in json - validation 1
+        System.out.println();
+        System.out.println("Проверка по названию есть ли книга в списке:");
+
+        boolean status = false;
+        for (int i = 0; i < jo.getJSONArray("book").length(); i++) {
+
+            String booKTitle = jo.getJSONArray("book").getJSONObject(i).get("title").toString();
+            if (booKTitle.equals("One Hundred Years of Solitude")) {
+                status = true;
+                System.out.println(booKTitle);
+                break;
+            }
+        }
+
+        Assert.assertTrue(status,"Title isn't present: ");
+
+
+        // validate total price of books - validation 2
+        System.out.println();
+        System.out.println("Проверка общей стоимости:");
+        double totalPrice = 0;
+
+        for (int i = 0; i < jo.getJSONArray("book").length(); i++) {
+
+            String price = jo.getJSONArray("book").getJSONObject(i).get("price").toString();
+            totalPrice += Double.parseDouble(price);
+        }
+        System.out.println(totalPrice);
+
+        Assert.assertEquals(totalPrice,45.96);
+
 
 
     }
