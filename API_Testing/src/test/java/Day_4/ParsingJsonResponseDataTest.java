@@ -1,11 +1,14 @@
 package Day_4;
 
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
 
+import java.sql.SQLOutput;
+
 import static io.restassured.RestAssured.given;
-import static java.lang.String.valueOf;
 
 
 public class ParsingJsonResponseDataTest {
@@ -14,8 +17,8 @@ public class ParsingJsonResponseDataTest {
     void testJsonResponse() {
 
         //Approach 1
-        /*given()
-                .contentType("application/json")
+      /*  given()
+                .contentType(ContentType.JSON)
                 .when()
                 .get("http://localhost:3000/books")
                 .then()
@@ -27,7 +30,7 @@ public class ParsingJsonResponseDataTest {
         //Approach 2
 
         Response res = given()
-                .contentType("application/json")
+                .contentType(ContentType.JSON)
                 .when()
                 .get("http://localhost:3000/book");
 
@@ -39,19 +42,20 @@ public class ParsingJsonResponseDataTest {
         System.out.println(title);*/
 
 
-        // JSONObject Class -представляет собой контейнер для хранения
-        // и работы с данными в формате JSON
+        // JSONObject Class -представляет собой контейнер для хранения и работы с данными в формате JSON
 
-        JSONObject jo = new JSONObject(res.toString());// converting response to json object type
+        String a = res.getBody().asPrettyString(); // получили тело (массив объектов)
 
+        JSONArray jsonArray = new JSONArray(a); // Создали JSONArray (объект) из строки
 
+        JSONObject jo = new JSONObject();// Создали новый JSONObject();
+        jo.put("book", jsonArray); // присвоили ему объект с ключем "book" и значением jsonArray
 
+        for (int i = 0; i < jo.getJSONArray("book").length(); i++) {
 
-
-
-
-
-
+            String booKTitle = jo.getJSONArray("book").getJSONObject(i).get("title").toString();
+            System.out.println(booKTitle);
+        }
 
 
     }
